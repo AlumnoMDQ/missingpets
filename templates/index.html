@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Título Aquí</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Logo o Nombre del Sitio</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Inicio</a></li>
+                    <li><a href="#">Crear Mascotas</a></li>
+                    <li><a href="#">Reporte</a></li>
+                    <li><a href="login">Login</a></li> <!-- Redirige a login.html -->
+                    <li><a href="registro">Registrarse</a></li> <!-- Redirige a registro.html -->
+                </ul>
+                <div class="mobile-menu">
+                    <a href="#">Menú</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Contenido de tu página -->
+        <h2>Bienvenido a tu página principal</h2>
+        <p>Aquí puedes comenzar a desarrollar tu aplicación.</p>
+    </div>
+
+    <!-- Aquí va el resto del contenido de tu página -->
+
+</body>
+</html>

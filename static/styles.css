@@ -1,0 +1,68 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: cyan; /* Fondo color cyan */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Estilos para el header */
+header {
+    background-color: #333; /* Color de fondo para el header */
+    padding: 10px 0;
+    text-align: center;
+    position: relative; /* Posición relativa para los elementos hijos */
+}
+
+header h1 {
+    color: white;
+}
+
+header nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: inline-block; /* Alineación inline-block para centrar */
+}
+
+header nav ul li {
+    display: inline-block;
+    margin: 0 10px;
+    border-radius: 20px; /* Items redondeados */
+    background-color: #555; /* Color de fondo para los items */
+    padding: 10px 20px;
+}
+
+header nav ul li a {
+    text-decoration: none;
+    color: white;
+}
+
+/* Elementos para simular huellas */
+.huellas {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.huellas .huella {
+    width: 20px;
+    height: 10px;
+    background-color: #555;
+    border-radius: 50%;
+    position: absolute;
+}
+
+.huellas .huella:nth-child(odd) {
+    transform: translateY(-50%) translateX(-60%);
+}
+
+.huellas .huella:nth-child(even) {
+    transform: translateY(-50%) translateX(60%);
+}

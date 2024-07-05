@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD de Mascotas</title>
+</head>
+<body>
+    <h1>CRUD de Mascotas</h1>
+
+    <!-- Formulario para crear una nueva mascota -->
+    <h2>Crear Nueva Mascota</h2>
+    <form id="crearMascotaForm">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" name="nombre" required><br><br>
+        <label for="tipo">Tipo:</label>
+        <input type="text" id="tipo" name="tipo" required><br><br>
+        <label for="raza">Raza:</label>
+        <input type="text" id="raza" name="raza" required><br><br>
+        <label for="color">Color:</label>
+        <input type="text" id="color" name="color" required><br><br>
+        <label for="edad">Edad:</label>
+        <input type="number" id="edad" name="edad" required><br><br>
+        <label for="descripcion">Descripción:</label><br>
+        <textarea id="descripcion" name="descripcion" rows="4"></textarea><br><br>
+        <label for="estado">Estado:</label>
+        <input type="text" id="estado" name="estado" required><br><br>
+        <label for="usuario_id">ID del Usuario:</label>
+        <input type="number" id="usuario_id" name="usuario_id" required><br><br>
+        <button type="submit">Crear Mascota</button>
+    </form>
+
+    <!-- Lista de mascotas -->
+    <h2>Lista de Mascotas</h2>
+    <ul id="listaMascotas"></ul>
+
+    <!-- Formulario para actualizar una mascota -->
+    <h2>Actualizar Mascota</h2>
+    <form id="actualizarMascotaForm">
+        <label for="idActualizar">ID de la Mascota a Actualizar:</label>
+        <input type="number" id="idActualizar" name="idActualizar" required><br><br>
+        <label for="nombreActualizar">Nombre:</label>
+        <input type="text" id="nombreActualizar" name="nombreActualizar" required><br><br>
+        <label for="tipoActualizar">Tipo:</label>
+        <input type="text" id="tipoActualizar" name="tipoActualizar" required><br><br>
+        <label for="razaActualizar">Raza:</label>
+        <input type="text" id="razaActualizar" name="razaActualizar" required><br><br>
+        <label for="colorActualizar">Color:</label>
+        <input type="text" id="colorActualizar" name="colorActualizar" required><br><br>
+        <label for="edadActualizar">Edad:</label>
+        <input type="number" id="edadActualizar" name="edadActualizar" required><br><br>
+        <label for="descripcionActualizar">Descripción:</label><br>
+        <textarea id="descripcionActualizar" name="descripcionActualizar" rows="4"></textarea><br><br>
+        <label for="estadoActualizar">Estado:</label>
+        <input type="text" id="estadoActualizar" name="estadoActualizar" required><br><br>
+        <label for="usuario_idActualizar">ID del Usuario:</label>
+        <input type="number" id="usuario_idActualizar" name="usuario_idActualizar" required><br><br>
+        <button type="submit">Actualizar Mascota</button>
+    </form>
+
+    <!-- Formulario para eliminar una mascota -->
+    <h2>Eliminar Mascota</h2>
+    <form id="eliminarMascotaForm">
+        <label for="idEliminar">ID de la Mascota a Eliminar:</label>
+        <input type="number" id="idEliminar" name="idEliminar" required><br><br>
+        <button type="submit">Eliminar Mascota</button>
+    </form>
+
+    <script>
+        // Función para realizar una solicitud POST a la API Flask para crear una nueva mascota
+        document.getElementById('crearMascotaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = {
+                nombre: formData.get('nombre'),
+                tipo: formData.get('tipo'),
+                raza: formData.get('raza'),
+                color: formData.get('color'),
+                edad: formData.get('edad'),
+                descripcion: formData.get('descripcion'),
+                estado: formData.get('estado'),
+                usuario_id: parseInt(formData.get('usuario_id'))
+            };
+
+            fetch('/mascotas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                // Actualizar la lista de mascotas después de crear una nueva mascota
+                listarMascotas();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al crear la mascota');
+            });
+        });
+
+        // Función para realizar una solicitud GET a la API Flask para obtener todas las mascotas
+        function listarMascotas() {
+            fetch('/mascotas')
+            .then(response => response.json())
+            .then(mascotas => {
+                const listaMascotas = document.getElementById('listaMascotas');
+                listaMascotas.innerHTML = ''; // Limpiar la lista antes de añadir las mascotas
+
+                mascotas.forEach(mascota => {
+                    const item = document.createElement('li');
+                    item.textContent = `${mascota.id}: ${mascota.nombre} (${mascota.tipo}, ${mascota.raza}, ${mascota.color}, ${mascota.edad} años, ${mascota.estado})`;
+                    listaMascotas.appendChild(item);
+                });
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al obtener las mascotas');
+            });
+        }
+
+        // Llamar a listarMascotas al cargar la página para mostrar la lista inicial
+        listarMascotas();
+
+        // Función para realizar una solicitud PUT a la API Flask para actualizar una mascota existente
+        document.getElementById('actualizarMascotaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const id = formData.get('idActualizar');
+            const data = {
+                nombre: formData.get('nombreActualizar'),
+                tipo: formData.get('tipoActualizar'),
+                raza: formData.get('razaActualizar'),
+                color: formData.get('colorActualizar'),
+                edad: formData.get('edadActualizar'),
+                descripcion: formData.get('descripcionActualizar'),
+                estado: formData.get('estadoActualizar'),
+                usuario_id: parseInt(formData.get('usuario_idActualizar'))
+            };
+
+            fetch(`/mascotas/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                // Actualizar la lista de mascotas después de actualizar una mascota
+                listarMascotas();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al actualizar la mascota');
+            });
+        });
+
+        // Función para realizar una solicitud DELETE a la API Flask para eliminar una mascota
+        document.getElementById('eliminarMascotaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const id = formData.get('idEliminar');
+
+            fetch(`/mascotas/${id}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                // Actualizar la lista de mascotas después de eliminar una mascota
+                listarMascotas();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al eliminar la mascota');
+            });
+        });
+    </script>
+</body>
+</html>
